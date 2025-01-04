@@ -14,3 +14,8 @@ wheels/
 
 # Database
 *sqlite*
+
+
+# Coverage
+.coverage
+htmlcov/
