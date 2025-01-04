@@ -4,11 +4,10 @@ set -o errexit
 
 pip install uv
 echo "Installing dependencies"
-pwd
-ls -a
+ls -a .venv .venv/bin
 uv sync --no-dev
-pwd
-ls -a
+echo "Installing gunicorn and uvicorn"
+ls -a .venv .venv/bin
 uv pip install gunicorn uvicorn
 
 # Convert static asset files
