@@ -2,7 +2,7 @@
 # Exit on error
 set -o errexit
 
-pipx install uv
+pip install uv
 uv sync
 uv pip install gunicorn uvicorn
 
