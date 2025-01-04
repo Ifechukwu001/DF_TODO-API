@@ -3,11 +3,7 @@
 set -o errexit
 
 pip install uv
-echo "Installing dependencies"
-ls -a .venv .venv/bin
-uv sync --no-dev
-echo "Installing gunicorn and uvicorn"
-ls -a .venv .venv/bin
+uv sync --no-dev --inexact
 uv pip install gunicorn uvicorn
 
 # Convert static asset files
