@@ -3,6 +3,7 @@
 set -o errexit
 
 pip install uv
+source .venv/bin/activate
 uv sync
 uv pip install gunicorn uvicorn
 
