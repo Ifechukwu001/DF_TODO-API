@@ -135,6 +135,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Project Settings
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "core.openapi.EnvelopeAutoSchema",
+    "DEFAULT_RENDERER_CLASSES": [
+        "core.renderers.EnvelopeJSONRenderer",
+    ],
 }
 
 SPECTACULAR_SETTINGS = {
