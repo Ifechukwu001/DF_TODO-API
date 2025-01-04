@@ -20,7 +20,7 @@ class ActionMutateSerializer(ActionBaseSerializer):
                     "Deadline cannot be before list creation date."
                 )
             elif not self.instance:
-                list_id = self.context["view"].kwargs["list_id"]
+                list_id = self.context.get("view").kwargs.get("list_id")
                 list = List.objects.get(id=list_id)
                 if deadline < list.created_at:
                     raise serializers.ValidationError(
@@ -29,7 +29,7 @@ class ActionMutateSerializer(ActionBaseSerializer):
         return deadline
 
     def validate(self, data):
-        data["list_id"] = self.context["view"].kwargs["list_id"]
+        data["list_id"] = self.context.get("view").kwargs.get("list_id")
         return data
 
 
