@@ -3,7 +3,8 @@
 set -o errexit
 
 pip install uv
-uv sync --no-dev --inexact
+uv add uv
+uv sync --no-dev 
 uv pip install gunicorn uvicorn
 
 # Convert static asset files
