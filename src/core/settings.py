@@ -134,7 +134,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Project Settings
 REST_FRAMEWORK = {
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "core.openapi.EnvelopeAutoSchema",
 }
 
 SPECTACULAR_SETTINGS = {
@@ -143,4 +143,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "LICENSE": {"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
     "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
 }
