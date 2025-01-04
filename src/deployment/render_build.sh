@@ -2,8 +2,8 @@
 # Exit on error
 set -o errexit
 
-pip install uv
 source .venv/bin/activate
+pip install uv
 uv sync
 uv pip install gunicorn uvicorn
 
