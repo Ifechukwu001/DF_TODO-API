@@ -10,6 +10,32 @@ class EnvelopeAutoSchema(AutoSchema):
         # Get the base serializer for the success response
         base_serializer = super().get_response_serializers()
 
+        success_response = dict()
+
+        enveloped_serializer = enveloper(
+            base_serializer.__class__,
+            self._is_list_view(serializer=base_serializer),
+        )
+
+        if self.view.action == "create":
+            success_response.update(
+                {
+                    201: enveloped_serializer,
+                }
+            )
+        elif self.view.action == "destroy":
+            success_response.update(
+                {
+                    204: None,
+                }
+            )
+        else:
+            success_response.update(
+                {
+                    200: enveloped_serializer,
+                }
+            )
+
         # Base error responses applicable to all endpoints
         error_responses = {
             400: ErrorResponseSerializer,
@@ -26,12 +52,7 @@ class EnvelopeAutoSchema(AutoSchema):
             )
 
         # Combine success and error responses
-        enveloped_serializer = enveloper(
-            base_serializer.__class__,
-            self._is_list_view(serializer=base_serializer),
-        )
-
         return {
-            200: enveloped_serializer,
+            **success_response,
             **error_responses,
         }

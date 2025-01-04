@@ -5,7 +5,7 @@ from drf_spectacular.utils import extend_schema_serializer
 
 @functools.cache
 def enveloper(serializer_class: serializers.Serializer, many: bool):
-    component_name = "{}{}".format(
+    component_name = "{}{}Response".format(
         serializer_class.__name__.replace("Serializer", ""),
         "Array" if many else "",
     )
