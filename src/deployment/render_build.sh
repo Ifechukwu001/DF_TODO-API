@@ -3,9 +3,8 @@
 set -o errexit
 
 pip install uv
-uv add uv
-uv sync --no-dev 
-uv pip install gunicorn uvicorn
+uv add uv gunicorn uvicorn
+uv sync --no-dev
 
 # Convert static asset files
 # uv run src/manage.py collectstatic --no-input
