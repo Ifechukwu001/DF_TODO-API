@@ -13,4 +13,4 @@ class ErrorResponseSerializer(serializers.Serializer):
     )
 
     def get_errors(self, instance) -> list[str]:
-        return []
+        return []  # pragma: no cover
