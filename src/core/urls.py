@@ -8,6 +8,7 @@ from drf_spectacular.views import (
 )
 
 api_paths = [
+    path("", include("auths.urls")),
     path("", include("lists.urls")),
 ]
 
