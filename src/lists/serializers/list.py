@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from lists.models import List
 
+
+from auths.utils import get_session_id
 from .action import ActionListSerializer
 
 
@@ -16,6 +18,16 @@ class ListMutateSerializer(ListBaseSerializer):
     class Meta(ListBaseSerializer.Meta):
         fields = ["id", "title", "note"]
         read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        session = get_session_id(self.context["request"])
+        if user.is_authenticated:
+            validated_data["user"] = user
+        else:
+            validated_data["session"] = session
+
+        return super().create(validated_data)
 
 
 class ListSerializer(ListBaseSerializer):
