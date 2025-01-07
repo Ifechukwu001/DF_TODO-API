@@ -1,3 +1,4 @@
+from dj_rest_auth.serializers import TokenSerializer
 from drf_spectacular.openapi import AutoSchema
 from rest_framework.permissions import IsAuthenticated
 
@@ -9,32 +10,57 @@ class EnvelopeAutoSchema(AutoSchema):
     def get_response_serializers(self):
         # Get the base serializer for the success response
         base_serializer = super().get_response_serializers()
-
         success_response = dict()
 
-        enveloped_serializer = enveloper(
-            base_serializer.__class__,
-            self._is_list_view(serializer=base_serializer),
-        )
+        if getattr(self.view, "action", False):
+            if base_serializer is None:
+                enveloped_serializer = None
+            else:
+                enveloped_serializer = enveloper(
+                    base_serializer.__class__,
+                    self._is_list_view(serializer=base_serializer),
+                )
 
-        if self.view.action == "create":
-            success_response.update(
-                {
-                    201: enveloped_serializer,
-                }
-            )
-        elif self.view.action == "destroy":
-            success_response.update(
-                {
-                    204: None,
-                }
-            )
+            if self.view.action == "create":
+                success_response.update(
+                    {
+                        201: enveloped_serializer,
+                    }
+                )
+            elif self.view.action == "destroy":
+                success_response.update(
+                    {
+                        204: None,
+                    }
+                )
+            else:
+                success_response.update(
+                    {
+                        200: enveloped_serializer,
+                    }
+                )
+
         else:
-            success_response.update(
-                {
-                    200: enveloped_serializer,
-                }
-            )
+            if base_serializer is None:
+                enveloped_serializer = None
+            else:
+                enveloped_serializer = enveloper(
+                    TokenSerializer,
+                    False,
+                )
+
+            if self.view.__class__.__name__ == "RegisterAPIView":
+                success_response.update(
+                    {
+                        201: enveloped_serializer,
+                    }
+                )
+            else:
+                success_response.update(
+                    {
+                        200: enveloped_serializer,
+                    }
+                )
 
         # Base error responses applicable to all endpoints
         error_responses = {
