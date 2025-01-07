@@ -13,17 +13,21 @@ The Swagger documentation for the application is hosted on [Render](https://df-t
   cd df_todo_api
   ```
 
-- Setup a new environment with UV. \
+- Setup UV. \
   [Click to Install UV](https://docs.astral.sh/uv/getting-started/installation/)
-
-  ```bash
-  uv init
-  ```
 
 - Synchronize the package requirements
 
   ```bash
   uv sync
+  ```
+
+- Setup environment variables \
+  You can use src/.env file to configure the variables
+  ```txt
+  SECRET_KEY=application_secret_key
+  DEBUG=True
+  ALLOWED_HOSTS=localhost, 127.0.0.1
   ```
 
 - Run migrations
