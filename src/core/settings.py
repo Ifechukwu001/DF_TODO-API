@@ -146,8 +146,8 @@ REST_FRAMEWORK = {
         "core.renderers.EnvelopeJSONRenderer",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
 }
 
@@ -158,6 +158,7 @@ SPECTACULAR_SETTINGS = {
     "LICENSE": {"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
+    "SCHEMA_PATH_PREFIX": "/api/v[0-9]/",
 }
 
 
