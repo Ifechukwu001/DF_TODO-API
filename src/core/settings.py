@@ -136,6 +136,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Project Settings
 AUTH_USER_MODEL = "auths.User"
+SESSION_IDENTIFIER = "user_session"
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
