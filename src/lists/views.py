@@ -1,4 +1,13 @@
-from rest_framework import generics, viewsets, mixins, response, status
+from rest_framework import (
+    generics,
+    viewsets,
+    filters,
+    mixins,
+    serializers,
+    response,
+    status,
+)
+from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
 
 from auths.utils import get_session_id
@@ -18,6 +27,8 @@ class ListViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
     lookup_value_converter = "uuid"
     http_method_names = ["get", "post", "patch", "delete"]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]
 
     def get_queryset(self):
         user = self.request.user
@@ -39,6 +50,8 @@ class ActionViewSet(
 ):
     serializer_class = ActionMutateSerializer
     queryset = Action.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["description"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -98,6 +111,20 @@ class ActionViewSet(
         serializer = self.get_serializer(action, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         action = serializer.save()
+        return response.Response(ActionSerializer(action).data)
+
+    @extend_schema(
+        request=None,
+        responses=ActionSerializer,
+    )
+    @action(detail=True, methods=["post"])
+    def mark_done(self, *args, **kwargs):
+        self.update_queryset(kwargs["list_id"])
+        action = self.get_object()
+        if action.done:
+            raise serializers.ValidationError("Action already done")
+        action.done = True
+        action.save()
         return response.Response(ActionSerializer(action).data)
 
     def delete(self, request, *args, **kwargs):
