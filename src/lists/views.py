@@ -1,6 +1,7 @@
 from rest_framework import generics, viewsets, mixins, response, status
 from drf_spectacular.utils import extend_schema
 
+from auths.utils import get_session_id
 from .models import List, Action
 from .serializers import (
     ListSerializer,
@@ -17,6 +18,12 @@ class ListViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
     lookup_value_converter = "uuid"
     http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return self.queryset.filter(user=user)
+        return self.queryset.filter(session=get_session_id(self.request))
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -41,7 +48,13 @@ class ActionViewSet(
         return super().get_serializer_class()
 
     def validate_list_id(self, list_id):
-        generics.get_object_or_404(List, id=list_id)
+        queryset = List.objects.all()
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(user=self.request.user)
+        else:
+            queryset = queryset.filter(session=get_session_id(self.request))
+
+        generics.get_object_or_404(queryset, id=list_id)
 
     def update_queryset(self, list_id):
         self.validate_list_id(list_id)
