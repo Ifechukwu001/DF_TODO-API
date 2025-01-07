@@ -2,7 +2,7 @@
 
 ## OpenAPI/Swagger Documentation
 
-The Swagger documentation for the application is hosted on [Render]() along with the application server.
+The Swagger documentation for the application is hosted on [Render](https://df-todo-api.onrender.com/api/docs) along with the application server.
 
 ## Setup
 
