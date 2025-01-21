@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Project Apps
-    "auths",
-    "lists",
+    "api",
     # Third-party Apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -135,7 +134,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Project Settings
-AUTH_USER_MODEL = "auths.User"
+# AUTH_USER_MODEL = "auths.User"
 SESSION_IDENTIFIER = "user_session"
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
