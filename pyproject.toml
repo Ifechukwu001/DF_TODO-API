@@ -5,13 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "django-allauth>=65.3.1",
+    "dj-rest-auth[with-social]>=7.0.1",
     "django>=5.1.4",
     "django-cors-headers>=4.6.0",
     "djangorestframework>=3.15.2",
     "drf-spectacular>=0.28.0",
     "python-decouple>=3.8",
-    "dj-rest-auth>=7.0.1",
     "requests>=2.32.3",
 ]
 
