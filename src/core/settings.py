@@ -134,10 +134,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Project Settings
-# AUTH_USER_MODEL = "auths.User"
-SESSION_IDENTIFIER = "user_session"
+AUTH_USER_MODEL = "api.User"
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_USER_MODEL_EMAIL_FIELD = None
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "core.openapi.EnvelopeAutoSchema",
@@ -146,7 +146,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
 
@@ -164,8 +166,8 @@ SPECTACULAR_SETTINGS = {
 ...
 
 REST_AUTH = {
-    "LOGIN_SERIALIZER": "auths.serializers.LoginSerializer",
-    "REGISTER_SERIALIZER": "auths.serializers.RegisterSerializer",
+    "LOGIN_SERIALIZER": "api.serializers.LoginSerializer",
+    "REGISTER_SERIALIZER": "api.serializers.RegisterSerializer",
 }
 
 
