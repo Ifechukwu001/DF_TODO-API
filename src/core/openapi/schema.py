@@ -2,6 +2,7 @@ from dj_rest_auth.serializers import TokenSerializer
 from drf_spectacular.openapi import AutoSchema
 from rest_framework.permissions import IsAuthenticated
 
+from api.enums.request import RequestAction
 from .serializers import ErrorResponseSerializer
 from .utils import enveloper
 
@@ -21,13 +22,13 @@ class EnvelopeAutoSchema(AutoSchema):
                     self._is_list_view(serializer=base_serializer),
                 )
 
-            if self.view.action == "create":
+            if self.view.action == RequestAction.CREATE:
                 success_response.update(
                     {
                         201: enveloped_serializer,
                     }
                 )
-            elif self.view.action == "destroy":
+            elif self.view.action == RequestAction.DESTROY:
                 success_response.update(
                     {
                         204: None,
@@ -41,6 +42,8 @@ class EnvelopeAutoSchema(AutoSchema):
                 )
 
         else:
+            from api.views.auth import RegisterAPIView
+
             if base_serializer is None:
                 enveloped_serializer = None
             else:
@@ -49,7 +52,7 @@ class EnvelopeAutoSchema(AutoSchema):
                     False,
                 )
 
-            if self.view.__class__.__name__ == "RegisterAPIView":
+            if isinstance(self.view, RegisterAPIView):
                 success_response.update(
                     {
                         201: enveloped_serializer,
